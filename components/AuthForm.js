@@ -10,27 +10,25 @@ function AuthForm({ onSubmit, buttonText, errorMessage }) {
   };
 
   return (
-    <div className="auth-form">
-      <form onSubmit={handleSubmit}>
-        <h2>{buttonText}</h2>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <button type="submit">{buttonText}</button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <h2>{buttonText}</h2>
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
+      {errorMessage && <p>{errorMessage}</p>}
+      <button type="submit">{buttonText}</button>
+    </form>
   );
 }
 

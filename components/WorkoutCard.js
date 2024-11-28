@@ -5,7 +5,7 @@ function WorkoutCard({ workout }) {
     <div className="workout-card">
       <h3>{workout.name}</h3>
       <p>Duration: {workout.duration}</p>
-      <p>Status: {workout.status ? "Completed" : "Incomplete"}</p>
+      <p>Status: {workout.status ? "Complete" : "Incomplete"}</p>
     </div>
   );
 }

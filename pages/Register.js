@@ -11,17 +11,13 @@ function Register() {
     try {
       await registerUser(email, password);
       navigate("/login");
-    } catch (err) {
+    } catch {
       setError("Registration failed");
     }
   };
 
   return (
-    <AuthForm
-      onSubmit={handleRegister}
-      buttonText="Register"
-      errorMessage={error}
-    />
+    <AuthForm onSubmit={handleRegister} buttonText="Register" errorMessage={error} />
   );
 }
 

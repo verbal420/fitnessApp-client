@@ -11,27 +11,27 @@ function AddWorkoutModal({ onClose, onAddWorkout }) {
 
   return (
     <div className="modal">
-      <div className="modal-content">
+      <form onSubmit={handleSubmit}>
         <h2>Add Workout</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Workout Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Duration"
-            value={duration}
-            onChange={(e) => setDuration(e.target.value)}
-            required
-          />
-          <button type="submit">Add</button>
-        </form>
-        <button onClick={onClose}>Close</button>
-      </div>
+        <input
+          type="text"
+          placeholder="Workout Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Duration"
+          value={duration}
+          onChange={(e) => setDuration(e.target.value)}
+          required
+        />
+        <button type="submit">Add</button>
+        <button type="button" onClick={onClose}>
+          Cancel
+        </button>
+      </form>
     </div>
   );
 }

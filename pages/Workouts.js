@@ -14,10 +14,10 @@ function Workouts() {
 
   const fetchWorkouts = async () => {
     try {
-      const response = await getMyWorkouts(token);
-      setWorkouts(response.data);
+      const data = await getMyWorkouts(token);
+      setWorkouts(data);
     } catch (err) {
-      console.error(err);
+      console.error("Failed to fetch workouts", err);
     }
   };
 
@@ -27,23 +27,20 @@ function Workouts() {
       fetchWorkouts();
       setShowModal(false);
     } catch (err) {
-      console.error(err);
+      console.error("Failed to add workout", err);
     }
   };
 
   return (
     <div>
-      <h1>My Workouts</h1>
+      <h1>Your Workouts</h1>
       <button id="addWorkout" onClick={() => setShowModal(true)}>
         Add Workout
       </button>
       {showModal && (
-        <AddWorkoutModal
-          onClose={() => setShowModal(false)}
-          onAddWorkout={handleAddWorkout}
-        />
+        <AddWorkoutModal onClose={() => setShowModal(false)} onAddWorkout={handleAddWorkout} />
       )}
-      <div className="workouts-grid">
+      <div>
         {workouts.map((workout) => (
           <WorkoutCard key={workout.id} workout={workout} />
         ))}

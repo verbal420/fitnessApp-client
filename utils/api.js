@@ -1,34 +1,42 @@
-import axios from "axios";
+const API_BASE = process.env.REACT_APP_API_BASE;
 
-const API_BASE = "https://fitnessapp-api-ln8u.onrender.com";
+// Helper function to make HTTP requests
+async function apiRequest(endpoint, method = "GET", body = null, token = null) {
+  const headers = {
+    "Content-Type": "application/json",
+  };
 
-export const loginUser = async (email, password) =>
-  await axios.post(`${API_BASE}/login`, { email, password });
+  if (token) headers["Authorization"] = `Bearer ${token}`;
 
-export const registerUser = async (email, password) =>
-  await axios.post(`${API_BASE}/register`, { email, password });
+  const options = {
+    method,
+    headers,
+  };
 
-export const getMyWorkouts = async (token) =>
-  await axios.get(`${API_BASE}/getMyWorkouts`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  if (body) options.body = JSON.stringify(body);
 
-export const addWorkout = async (workout, token) =>
-  await axios.post(`${API_BASE}/addWorkout`, workout, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const response = await fetch(`${API_BASE}${endpoint}`, options);
 
-export const updateWorkout = async (id, workout, token) =>
-  await axios.patch(`${API_BASE}/updateWorkout/${id}`, workout, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
 
-export const deleteWorkout = async (id, token) =>
-  await axios.delete(`${API_BASE}/deleteWorkout/${id}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  return response.json();
+}
 
-export const completeWorkoutStatus = async (id, token) =>
-  await axios.post(`${API_BASE}/completeWorkoutStatus/${id}`, {}, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+// API methods
+export const loginUser = (email, password) =>
+  apiRequest("/login", "POST", { email, password });
+
+export const registerUser = (email, password) =>
+  apiRequest("/register", "POST", { email, password });
+
+export const getMyWorkouts = (token) =>
+  apiRequest("/getMyWorkouts", "GET", null, token);
+
+export const addWorkout = (workout, token) =>
+  apiRequest("/addWorkout", "POST", workout, token);
+
+export const deleteWorkout = (id, token) =>
+  apiRequest(`/deleteWorkout/${id}`, "DELETE", null, token);
+
+export const completeWorkoutStatus = (id, token) =>
+  apiRequest(`/completeWorkoutStatus/${id}`, "POST", null, token);

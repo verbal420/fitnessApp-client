@@ -10,20 +10,14 @@ function Login() {
   const handleLogin = async ({ email, password }) => {
     try {
       const response = await loginUser(email, password);
-      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("token", response.token);
       navigate("/workouts");
-    } catch (err) {
-      setError("Invalid login credentials");
+    } catch {
+      setError("Invalid credentials");
     }
   };
 
-  return (
-    <AuthForm
-      onSubmit={handleLogin}
-      buttonText="Login"
-      errorMessage={error}
-    />
-  );
+  return <AuthForm onSubmit={handleLogin} buttonText="Login" errorMessage={error} />;
 }
 
 export default Login;
