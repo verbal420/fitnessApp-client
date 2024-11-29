@@ -4,12 +4,14 @@ import AuthForm from './components/AuthForm';
 import WorkoutList from './components/WorkoutList';
 import AddWorkoutModal from './components/AddWorkoutModal';
 import { login, register, getWorkouts, addWorkout } from './services/api';
+import Navbar from './components/Navbar';
 
 const App = () => {
   const { auth, login: setLogin, logout } = useAuth();
   const [workouts, setWorkouts] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
+  // Fetch workouts after successful login
   useEffect(() => {
     if (auth.token) {
       getWorkouts(auth.token).then(setWorkouts);
@@ -31,22 +33,29 @@ const App = () => {
     setWorkouts((prev) => [...prev, newWorkout]);
   };
 
+  const handleLogout = () => {
+    logout();
+    setWorkouts([]);
+  };
+
   return (
     <div>
-      {!auth.token && (
+      {/* Render Navbar if the user is logged in */}
+      {auth.token && <Navbar onLogout={handleLogout} />}
+
+      {!auth.token ? (
         <>
           <AuthForm type="login" onSubmit={handleLogin} />
           <AuthForm type="register" onSubmit={handleRegister} />
         </>
-      )}
-      {auth.token && (
+      ) : (
         <>
           <button onClick={() => setShowModal(true)}>Add Workout</button>
           <WorkoutList workouts={workouts} />
           {showModal && (
-            <AddWorkoutModal 
-              onClose={() => setShowModal(false)} 
-              onAddWorkout={handleAddWorkout} 
+            <AddWorkoutModal
+              onClose={() => setShowModal(false)}
+              onAddWorkout={handleAddWorkout}
             />
           )}
         </>

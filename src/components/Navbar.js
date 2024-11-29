@@ -2,7 +2,7 @@ import React from 'react';
 
 const Navbar = ({ onLogout }) => {
   return (
-    <nav>
+    <nav className="navbar">
       <button onClick={onLogout}>Logout</button>
     </nav>
   );
